@@ -89,7 +89,8 @@ app.post("/auth/save", async (request: Request, response: Response) => {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--demo")) game.startDemo();
   const port = Number(loadEnv().PORT ?? 3000);
-  app.listen(port, "127.0.0.1", () => {
+  const host = process.env.HOST ?? (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1");
+  app.listen(port, host, () => {
     console.log(`ChaosForge server at http://localhost:${port}`);
     const env = loadEnv();
     if (env.TWITCH_USER_TOKEN && env.TWITCH_BROADCASTER_ID && env.TWITCH_USER_ID) {
@@ -103,3 +104,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     }
   });
 }
+
+export default app;
