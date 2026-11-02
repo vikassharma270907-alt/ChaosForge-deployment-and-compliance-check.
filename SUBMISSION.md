@@ -4,9 +4,11 @@
 **Elevator Pitch:** Twitch chat mods the game in plain English; deterministic schema parsing keeps the stream safe at 60 FPS.  
 **Built With:** openai-codex, twitch, eventsub, node.js, typescript, express, html5, canvas-2d, web-audio-api, sse  
 **Repository URL:** https://github.com/vikassharma270907-alt/ChaosForge-deployment-and-compliance-check.  
-**Demonstration Video:** `ChaosForge_Demo_Video_3to4min.mp4` (3:37) / `ChaosForge_Devpost_Under3min.mp4` (2:50)  
+**Live Hosted Web App (Render):** https://chaosforge-3ky4.onrender.com  
+**Demo Control Deck:** https://chaosforge-3ky4.onrender.com/deck?mode=demo  
+**OBS Canvas Overlay:** https://chaosforge-3ky4.onrender.com/overlay?mode=demo  
+**Demonstration Video File:** `ChaosForge_Devpost_Under3min.mp4` (Duration: 2:50 / 170.3s — Strictly compliant with the < 3:00 minute rule)  
 **OpenAI Codex Session ID:** `e4905582-5d8f-4280-a0fe-74ec0c366da6`  
-**Demo Mode URL:** `http://localhost:3000/deck?mode=demo` and `http://localhost:3000/overlay?mode=demo` (or public hosted endpoint)  
 
 ---
 
@@ -34,7 +36,7 @@ The app is built with TypeScript on Node.js using Express and Server-Sent Events
 We engineered ChaosForge end-to-end using the OpenAI Codex CLI across vertical slices:
 - Scaffolding the decoupled domain layers (EventSub client, game engine, proposal queue, and SSE bridge).
 - Engineering the deterministic parser, effect validator, and numeric clamping boundaries.
-- Generating a comprehensive automated test suite of 30 unit tests covering EventSub welcome windows, reconnect handoffs, duplicate message-ID routing, and queue cooldowns with a 100% pass rate.
+- Generating a comprehensive automated test suite of 31 unit tests covering EventSub welcome windows, reconnect handoffs, duplicate message-ID routing, and queue cooldowns with a 100% pass rate.
 - Verified forensic audit trail anchored by our unique Codex Session ID:
 
 `e4905582-5d8f-4280-a0fe-74ec0c366da6`
@@ -47,9 +49,10 @@ The central challenge was balancing audience agency with broadcast safety. Execu
 
 - Complete login-free demo loop allowing judges to evaluate full functionality in under 60 seconds.
 - Single-click streamer approval gate protecting the broadcaster's gameplay focus.
-- 30 passing automated unit tests covering all protocol and moderation edge cases.
+- 31 passing automated unit tests covering all protocol and moderation edge cases.
 - Production-grade EventSub WebSocket lifecycle with reconnect URL handoff and keepalive monitoring.
 - 1080p 60 FPS transparent OBS-ready overlay with procedural graphics and Web Audio sound.
+- Live cloud deployment on Render with 1-click Blueprint infrastructure and health probes.
 
 ## What's next
 

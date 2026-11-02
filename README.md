@@ -1,6 +1,13 @@
 # ChaosForge
 
-ChaosForge is a local OBS Browser Source arcade arena for the Codex x TwitchCon Hackathon. Viewers propose plain-English rules with `!forge`; the streamer approves or vetoes them from a control deck; approved rules safely change the live canvas arena for a short round.
+ChaosForge is a live audience modding engine and transparent OBS Browser Source arcade arena for the Codex x TwitchCon Hackathon. Viewers propose plain-English rules with `!forge`; the streamer approves or vetoes them from a control deck; approved rules safely change the live canvas arena for a short round.
+
+## 🌐 Live Hosted Deployment (Render)
+
+The application is deployed live with zero-downtime health probes on Render:
+- **ChaosForge Portal**: [https://chaosforge-3ky4.onrender.com](https://chaosforge-3ky4.onrender.com)
+- **Streamer Control Deck (Demo Mode)**: [https://chaosforge-3ky4.onrender.com/deck?mode=demo](https://chaosforge-3ky4.onrender.com/deck?mode=demo)
+- **OBS Canvas Overlay (Demo Mode)**: [https://chaosforge-3ky4.onrender.com/overlay?mode=demo](https://chaosforge-3ky4.onrender.com/overlay?mode=demo)
 
 ## Quick start (demo, no Twitch login)
 
@@ -12,7 +19,7 @@ npm run demo
 
 Open [http://localhost:3000/deck?mode=demo](http://localhost:3000/deck?mode=demo) and [http://localhost:3000/overlay?mode=demo](http://localhost:3000/overlay?mode=demo). The demo generates labeled `DEMO` chat proposals, votes, cheers, and a raid; all proposals go through the same parser, queue, and approval pipeline as live messages.
 
-For OBS, add a Browser Source at `http://localhost:3000/overlay` with a 1920×1080 canvas. The page itself has a transparent background.
+For OBS, add a Browser Source at `http://localhost:3000/overlay` (or `https://chaosforge-3ky4.onrender.com/overlay`) with a 1920×1080 canvas. The page itself has a transparent background.
 
 ## Connect Twitch
 
