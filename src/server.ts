@@ -1,9 +1,20 @@
 import express, { type Request, type Response } from "express";
+import { pathToFileURL } from "node:url";
 import { loadEnv } from "./env.js";
 import { saveValidatedToken, TwitchAuthError } from "./auth.js";
+import { deckPage, overlayPage } from "./pages.js";
 
 export const app = express();
 app.use(express.json({ limit: "4kb" }));
+app.use(express.static("public"));
+
+app.get("/overlay", (request: Request, response: Response) => {
+  response.type("html").send(overlayPage(request.query.mode === "demo"));
+});
+
+app.get("/deck", (request: Request, response: Response) => {
+  response.type("html").send(deckPage(request.query.mode === "demo"));
+});
 
 app.get("/", (_request: Request, response: Response) => {
   response.type("html").send(`<!doctype html><meta charset="utf-8"><title>ChaosForge Twitch login</title>
@@ -39,7 +50,7 @@ app.post("/auth/save", async (request: Request, response: Response) => {
   }
 });
 
-if (import.meta.url === `file://${process.argv[1]?.replaceAll("\\", "/")}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const port = Number(loadEnv().PORT ?? 3000);
   app.listen(port, "127.0.0.1", () => console.log(`ChaosForge auth server at http://localhost:${port}`));
 }
