@@ -29,11 +29,12 @@ test("subscribes to all required EventSub topics immediately on welcome (under 1
   assert.ok(testbed.calls.every((call) => call.at < 10_000));
 });
 
-test("reconnect waits for the new welcome before closing the old socket", () => {
+test("reconnect waits for the new welcome before closing the old socket and does not re-subscribe", () => {
   const testbed = setup(); testbed.client.connect(); const old = testbed.sockets[0]; old.emit("message", welcome("old"));
+  assert.equal(testbed.calls.length, 3);
   old.emit("message", JSON.stringify({ metadata: { message_type: "session_reconnect" }, payload: { session: { reconnect_url: "wss://exact.reconnect" } } }));
   assert.equal(testbed.sockets[1].url, "wss://exact.reconnect"); assert.equal(old.closed, false);
-  testbed.sockets[1].emit("message", welcome("new")); assert.equal(old.closed, true);
+  testbed.sockets[1].emit("message", welcome("new")); assert.equal(old.closed, true); assert.equal(testbed.calls.length, 3);
 });
 
 test("duplicate Twitch chat message IDs are deduped after EventSub routing", () => {

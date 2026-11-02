@@ -83,6 +83,7 @@ export class EventSubClient {
     if (type === "session_welcome") {
       const session = message.payload?.session;
       if (!session?.id) { this.game.setTwitchStatus("error"); return; }
+      const isReconnectHandoff = Boolean(connection.reconnectFrom);
       if (connection.reconnectFrom) {
         const old = connection.reconnectFrom;
         this.active = connection;
@@ -93,7 +94,7 @@ export class EventSubClient {
       this.game.setTwitchStatus("connected");
       this.armKeepalive(connection, session.keepalive_timeout_seconds);
       // This begins all three HTTPS POSTs immediately after the welcome message.
-      void this.subscribe(session.id);
+      if (!isReconnectHandoff) void this.subscribe(session.id);
       return;
     }
     if (connection !== this.active) return;
@@ -177,7 +178,7 @@ export class EventSubClient {
       this.game.receiveCheer(user, bits);
     } else if (type === "channel.raid") {
       const user = typeof event.from_broadcaster_user_name === "string" ? event.from_broadcaster_user_name : "Raid party";
-      const viewers = typeof event.viewer_count === "number" ? event.viewer_count : 1;
+      const viewers = typeof event.viewers === "number" ? event.viewers : 1;
       this.game.simulateRaid(user, viewers);
     }
   }
