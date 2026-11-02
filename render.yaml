@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: chaosforge
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_VERSION
+        value: 22
+      - key: EVENTSUB_URL
+        value: wss://eventsub.wss.twitch.tv/ws
+      - key: TWITCH_CLIENT_ID
+        value: 62kid1hd2lof776aye7tqf3ailo0y4

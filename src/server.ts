@@ -11,6 +11,10 @@ export const game = new ChaosForgeGame();
 app.use(express.json({ limit: "4kb" }));
 app.use(express.static("public"));
 
+app.get("/healthz", (_request: Request, response: Response) => {
+  response.status(200).json({ status: "ok" });
+});
+
 app.get("/overlay", (request: Request, response: Response) => {
   if (request.query.mode === "demo") game.startDemo();
   response.type("html").send(overlayPage(request.query.mode === "demo"));
@@ -89,7 +93,7 @@ app.post("/auth/save", async (request: Request, response: Response) => {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--demo")) game.startDemo();
   const port = Number(loadEnv().PORT ?? 3000);
-  const host = process.env.HOST ?? (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1");
+  const host = process.env.HOST ?? (process.env.NODE_ENV === "production" || process.env.PORT ? "0.0.0.0" : "127.0.0.1");
   app.listen(port, host, () => {
     console.log(`ChaosForge server at http://localhost:${port}`);
     const env = loadEnv();

@@ -11,13 +11,16 @@
     "twitch:login": "tsx src/twitch-login.ts",
     "twitch:check": "tsx src/twitch-check.ts"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "tsx": "^4.20.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.0",
-    "tsx": "^4.20.0",
     "typescript": "^5.8.0"
   }
 }

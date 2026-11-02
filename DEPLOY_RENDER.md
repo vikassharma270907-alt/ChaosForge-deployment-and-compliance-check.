@@ -1,66 +1,56 @@
 # Deploy ChaosForge on Render
 
-Use Render for the current live Twitch app. It runs a persistent Node web service; Vercel is suitable for a presentation or short demo only, not this application's long-lived EventSub connection and in-memory shared state.
+Use Render for the live Twitch app or presentation demo. It runs a persistent Node web service with an in-memory shared state and long-lived EventSub connections.
 
-## 1 Create a private repository
+## Option A: Deploy via Blueprint (Recommended - 1 Click)
 
-Create an empty private GitHub repository, then run these commands in PowerShell from this project folder. Replace the sample URL with your own repository URL.
+A `render.yaml` Blueprint file is included at the repository root.
 
-```powershell
-git remote add origin https://github.com/YOUR-USERNAME/chaosforge.git
-git branch -M main
-git push -u origin main
-```
+1. In Render, select **New > Blueprint** (or open your existing Blueprint deployment screen).
+2. For **Blueprint Name**, enter: `chaosforge` (or any unique name).
+3. Ensure the branch is set to `main` and Blueprint Path is set to `render.yaml`.
+4. Click **Retry** / **Apply**. Render will automatically detect the web service configuration, build command, start command, health check (`/healthz`), and environment variables.
+5. Click **Apply Changes** to deploy.
 
-Do not upload `.env`. It is already ignored by Git.
-
-## 2 Create the Render web service
+## Option B: Deploy via Web Service (Manual)
 
 1. Go to [Render](https://render.com/) and select **New > Web Service**.
-2. Connect GitHub and select the ChaosForge repository.
-3. Use these settings:
+2. Connect your GitHub repository (`ChaosForge-deployment-and-compliance-check.`).
+3. Configure the following settings:
 
 | Setting | Value |
 | --- | --- |
 | Runtime | Node |
-| Build command | `npm ci` |
+| Build command | `npm install` |
 | Start command | `npm start` |
-| Health check path | `/deck?mode=demo` |
+| Health check path | `/healthz` |
 | Instance count | 1 |
 
-The application uses Render's `PORT` automatically. The server binds to `0.0.0.0` in production.
+The application reads Render's `PORT` and automatically binds to `0.0.0.0` in production.
 
-## 3 Add environment variables
+## Environment Variables
 
-In Render, open **Environment** and add these values there. Never commit them to the repository and never paste token values into chat.
+The following default environment variables are already defined in `render.yaml`:
+- `NODE_ENV`: `production`
+- `HOST`: `0.0.0.0`
+- `NODE_VERSION`: `22`
+- `EVENTSUB_URL`: `wss://eventsub.wss.twitch.tv/ws`
+- `TWITCH_CLIENT_ID`: `62kid1hd2lof776aye7tqf3ailo0y4`
 
-```text
-NODE_ENV=production
-HOST=0.0.0.0
-TWITCH_CLIENT_ID=62kid1hd2lof776aye7tqf3ailo0y4
-TWITCH_USER_TOKEN=<your existing private token>
-TWITCH_BROADCASTER_ID=<your broadcaster ID>
-TWITCH_USER_ID=<your Twitch user ID>
-EVENTSUB_URL=wss://eventsub.wss.twitch.tv/ws
-```
+### For Live Twitch Streaming (Optional)
+If you wish to stream live Twitch events (beyond the login-free demo mode), open your service in Render, navigate to **Environment**, and add:
+- `TWITCH_USER_TOKEN`: Your Twitch user OAuth token (from `npm run twitch:login`)
+- `TWITCH_BROADCASTER_ID`: Your broadcaster user ID
+- `TWITCH_USER_ID`: Your Twitch user ID
 
-`OPENAI_API_KEY` is not needed because the current project uses the deterministic parser only.
+Never commit Twitch tokens to the Git repository.
 
-Obtain or refresh the Twitch values locally with `npm run twitch:login` and `npm run twitch:check`; do not make the hosted `/auth/save` callback public. The original localhost-only safeguard remains intentional.
+## Testing Your Deployment
 
-## 4 Deploy and test
+Once Render finishes deploying, your service URL will look like:
+`https://chaosforge-xxxx.onrender.com`
 
-Click **Create Web Service**. After deployment, Render gives you an HTTPS URL such as `https://chaosforge.onrender.com`.
-
-Use:
-
-```text
-https://YOUR-SERVICE.onrender.com/deck?mode=demo
-https://YOUR-SERVICE.onrender.com/overlay?mode=demo
-```
-
-Keep the service at one instance. The queue and active round are in memory, so multiple instances would not share state. A free Render service can spin down after inactivity, so use an always-on plan for a real Twitch stream.
-
-## Vercel
-
-You can deploy the project to Vercel as an Express Function for a preview or presentation. Do not rely on that deployment for continuous EventSub connection state: function instances may change between requests and the current queue is not durable. Use Render for the working live app.
+Verify the deployment using:
+- **Interactive Control Deck (Demo)**: `https://chaosforge-xxxx.onrender.com/deck?mode=demo`
+- **OBS Canvas Overlay**: `https://chaosforge-xxxx.onrender.com/overlay?mode=demo`
+- **Health Check**: `https://chaosforge-xxxx.onrender.com/healthz`
