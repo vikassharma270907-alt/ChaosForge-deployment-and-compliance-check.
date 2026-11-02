@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+video_build
+*.mp4
+*.mp3
+*.png
+*.wav
+tests
+.coverage
