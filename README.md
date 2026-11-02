@@ -8,6 +8,13 @@ The application is deployed live with zero-downtime health probes on Render:
 - **ChaosForge Portal**: [https://chaosforge-3ky4.onrender.com](https://chaosforge-3ky4.onrender.com)
 - **Streamer Control Deck (Demo Mode)**: [https://chaosforge-3ky4.onrender.com/deck?mode=demo](https://chaosforge-3ky4.onrender.com/deck?mode=demo)
 - **OBS Canvas Overlay (Demo Mode)**: [https://chaosforge-3ky4.onrender.com/overlay?mode=demo](https://chaosforge-3ky4.onrender.com/overlay?mode=demo)
+- **Health Check Probe**: [https://chaosforge-3ky4.onrender.com/healthz](https://chaosforge-3ky4.onrender.com/healthz)
+
+## 📄 Submission Documents & Worksheets
+- **Devpost Submission Draft**: [`SUBMISSION.md`](./SUBMISSION.md)
+- **Printable PDF Submission Worksheet**: Open [`devpost-submission-pdf.html`](./devpost-submission-pdf.html) in your browser to print/save as PDF.
+- **Render Blueprint Specification**: [`render.yaml`](./render.yaml)
+- **Docker Container Definition**: [`Dockerfile`](./Dockerfile) and [`railway.json`](./railway.json)
 
 ## Quick start (demo, no Twitch login)
 

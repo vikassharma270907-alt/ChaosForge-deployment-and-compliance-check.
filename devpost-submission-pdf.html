@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codex x TwitchCon Hackathon — Devpost Submission PDF</title>
+  <style>
+    :root {
+      --twitch-purple: #9146FF;
+      --dark: #0e0e10;
+      --border: #d1d5db;
+      --text: #111827;
+      --muted: #4b5563;
+      --bg-light: #f9fafb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.45;
+    }
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 32px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--twitch-purple);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+    h1 { font-size: 20px; margin: 0 0 4px 0; color: var(--dark); }
+    .sub { font-size: 12.5px; color: var(--muted); margin: 0; }
+    .actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      background: var(--twitch-purple);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    select {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12.5px;
+      background: #fff;
+    }
+    h2 {
+      font-size: 13.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--twitch-purple);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+      margin: 18px 0 10px 0;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { margin-bottom: 10px; }
+    label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+    .hint { font-weight: 400; color: var(--muted); font-size: 11px; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-family: inherit;
+      background: var(--bg-light);
+    }
+    textarea { resize: vertical; }
+    .checklist {
+      background: #f3f4f6;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border-left: 4px solid var(--twitch-purple);
+      font-size: 12px;
+    }
+    .checklist label {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; padding: 8px; max-width: 100%; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div>
+        <h1>Codex x TwitchCon Hackathon — Devpost Submission Sheet</h1>
+        <p class="sub">Deadline: Nov 2, 2026 @ 2:00 PM PT (5:00 PM ET / 9:00 PM UTC) | $25,000 Prize Pool + Top 5 at TwitchCon San Diego</p>
+      </div>
+      <div class="actions no-print">
+        <select id="presetSelect" onchange="applyPreset()">
+          <option value="chaosforge">Preset: ChaosForge</option>
+          <option value="raidrift">Preset: RaidRift Arena</option>
+          <option value="loreloom">Preset: LoreLoom Studio</option>
+          <option value="echopulse">Preset: EchoPulse Recap</option>
+        </select>
+        <button class="btn" onclick="window.print()">Download / Save as PDF</button>
+      </div>
+    </div>
+    <h2>1. Project Identity & Required Devpost Links</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Project Name <span class="hint">(Required)</span></label>
+        <input type="text" id="projName" value="ChaosForge" />
+      </div>
+      <div class="field">
+        <label>OpenAI Codex Session ID <span class="hint">(Required — run /status in Codex CLI)</span></label>
+        <input type="text" id="sessionId" value="e4905582-5d8f-4280-a0fe-74ec0c366da6" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Elevator Pitch / Tagline <span class="hint">(1-sentence summary for Devpost header)</span></label>
+      <input type="text" id="pitch" value="Twitch chat mods the game in plain English; deterministic schema parsing keeps the stream safe at 60 FPS." />
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Code Repository URL <span class="hint">(GitHub, GitLab, or Bitbucket)</span></label>
+        <input type="text" value="https://github.com/vikassharma270907-alt/ChaosForge-deployment-and-compliance-check." />
+      </div>
+      <div class="field">
+        <label>Demonstration Video URL <span class="hint">(YouTube Public/Unlisted, &lt; 3:00 min)</span></label>
+        <input type="text" placeholder="https://youtu.be/your-video-id (Upload ChaosForge_Devpost_Under3min.mp4 - 2:50)" />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Public Demo / Judge Replay URL <span class="hint">(Zero-login ?mode=demo link)</span></label>
+        <input type="text" value="https://chaosforge-3ky4.onrender.com/deck?mode=demo" />
+      </div>
+      <div class="field">
+        <label>Built With Tags <span class="hint">(Devpost technology tags)</span></label>
+        <input type="text" id="tags" value="openai-codex, twitch, eventsub, node.js, typescript, express, html5, canvas-2d, web-audio-api, sse" />
+      </div>
+    </div>
+    <h2>2. Project Description & OpenAI Codex Provenance</h2>
+    <div class="field">
+      <label>Features, Functionality & Twitch Architecture <span class="hint">(Innovation, Impact & Design)</span></label>
+      <textarea id="features" rows="5">ChaosForge connects Twitch chat to an interactive 60 FPS OBS Browser Source arena via Twitch EventSub WebSockets (channel.chat.message, channel.cheer, channel.raid). Viewers propose natural-language physics and visual twists (!forge) which pass through message_id deduplication, 15s cooldowns, and link stripping into a Streamer Control Deck for one-click approval, veto, or 30s auto-pilot execution. Approved mutators safely alter arena physics (gravity, lava, meteors, spikes, shaders, shields) with Web Audio sound synthesis and a built-in Judge Demo/Replay mode (?mode=demo).</textarea>
+    </div>
+    <div class="field">
+      <label>How We Built It with OpenAI Codex <span class="hint">(Technological Implementation)</span></label>
+      <textarea id="codexUse" rows="4">Built end-to-end in a single primary OpenAI Codex CLI thread (verified via /status and Session ID e4905582-5d8f-4280-a0fe-74ec0c366da6). Codex scaffolded the EventSub WebSocket state machine (10s welcome subscription window, 30s session_reconnect handoff, 15s heartbeats), the deterministic schema parser, the OBS Canvas 2D overlay with Web Audio API synthesis, and the 31-test automated suite + Judge Replay Simulator.</textarea>
+    </div>
+    <h2>3. Mandatory Pre-Submission Compliance Checklist</h2>
+    <div class="checklist">
+      <label><input type="checkbox" checked /> <strong>Codex Session ID Included:</strong> Copied exact UUID (<code>e4905582-5d8f-4280-a0fe-74ec0c366da6</code>) from main Codex build thread.</label>
+      <label><input type="checkbox" checked /> <strong>Repo & Secret Hygiene:</strong> Stripped all API keys/<code>.env</code> secrets; included setup guide in <code>README.md</code>; public repository on GitHub.</label>
+      <label><input type="checkbox" checked /> <strong>YouTube Video Under 3:00:</strong> File <code>ChaosForge_Devpost_Under3min.mp4</code> is 2:50 (170.35s); Public or Unlisted; zero copyrighted music.</label>
+      <label><input type="checkbox" checked /> <strong>Judge Demo Mode Active:</strong> Live on Render (<code>https://chaosforge-3ky4.onrender.com/deck?mode=demo</code>) through Nov 15, 2026 with one-click synthetic chat/raid simulator.</label>
+    </div>
+  </div>
+  <script>
+    const presets = {
+      chaosforge: {
+        name: "ChaosForge",
+        pitch: "Twitch chat mods the game in plain English; deterministic schema parsing keeps the stream safe at 60 FPS.",
+        tags: "openai-codex, twitch, eventsub, node.js, typescript, express, html5, canvas-2d, web-audio-api, sse",
+        features: "ChaosForge connects Twitch chat to an interactive 60 FPS OBS Browser Source arena via Twitch EventSub WebSockets (channel.chat.message, channel.cheer, channel.raid). Viewers propose natural-language physics and visual twists (!forge) which pass through message_id deduplication, 15s cooldowns, and link stripping into a Streamer Control Deck for one-click approval, veto, or 30s auto-pilot execution. Approved mutators safely alter arena physics (gravity, lava, meteors, spikes, shaders, shields) with Web Audio sound synthesis and a built-in Judge Demo/Replay mode (?mode=demo)."
+      },
+      raidrift: {
+        name: "RaidRift Arena",
+        pitch: "Turn every Twitch Raid into a 60-second cross-channel boss battle between two streamer communities.",
+        tags: "openai-codex, twitch, eventsub, oauth, node.js, typescript, cloudflare-workers, html5, canvas, web-audio-api",
+        features: "RaidRift Arena transforms passive Twitch Raids and co-streams into an interactive dual-community boss battle inside an OBS Browser Source overlay. Listening to channel.raid and channel.chat.message over EventSub WebSockets, it spawns a shared Rift Boss where raiding and defending chatters trigger synchronized combos (!strike, !shield, !ally) with anti-spam cooldowns, streamer approval controls, and a one-click Judge Raid Simulator."
+      },
+      loreloom: {
+        name: "LoreLoom Studio",
+        pitch: "Transform Twitch chat into a live tabletop Dungeon Master council with dynamic OBS quest cards and dice physics.",
+        tags: "openai-codex, twitch, eventsub, oauth, node.js, typescript, sqlite, html5, canvas, web-audio-api",
+        features: "LoreLoom Studio empowers RPG, strategy, and tabletop streamers by turning Twitch chat into a governed Faction Council. Viewers submit encounter twists (!omen) and trigger interactive dice rolls (!roll) via EventSub WebSockets. The streamer approves top-voted twists from a single-click dashboard to render animated parchment lore cards and procedural Web Audio soundscapes on OBS."
+      },
+      echopulse: {
+        name: "EchoPulse Recap",
+        pitch: "Zero-spoiler 12-second visual stream recaps and inside-joke radar cards that turn mid-stream joiners into active chatters.",
+        tags: "openai-codex, twitch, eventsub, oauth, node.js, typescript, sqlite, express.js, sse, html5, css",
+        features: "EchoPulse Recap solves mid-stream viewer drop-off by ingesting channel.chat.message, channel.subscribe, and channel.raid events via local EventSub WebSockets into node:sqlite. It detects chat velocity spikes, top chatters, and recurring inside jokes—displaying a 12-second animated OBS HUD recap card when viewers type !pulse or send their first chat message, complete with a deterministic template fallback and saved-log Replay Mode."
+      }
+    };
+    function applyPreset() {
+      const p = presets[document.getElementById("presetSelect").value];
+      document.getElementById("projName").value = p.name;
+      document.getElementById("pitch").value = p.pitch;
+      document.getElementById("tags").value = p.tags;
+      document.getElementById("features").value = p.features;
+    }
+  </script>
+</body>
+</html>
