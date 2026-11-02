@@ -20,7 +20,9 @@
   ][index % 3];
     approve({ text: rules[0], user: 'DEMO · ' + rules[1], effect: rules[2] });
   }
-  if (demo) { setTimeout(() => demoEvent(0), 1800); let i = 1; setInterval(() => demoEvent(i++), 14500); }
+  let latestActiveId = null;
+  const stream = new EventSource('/events');
+  stream.addEventListener('state', (message) => { try { const state = JSON.parse(message.data); if (state.active && state.active.id !== latestActiveId) { latestActiveId = state.active.id; approve(state.active); } if (!state.active) { latestActiveId = null; effect = { gravityX: 0, gravityY: 1, hazard: 'none', hazardIntensity: 1, shader: 'none', shieldSeconds: 0, durationSeconds: 20 }; } } catch {} });
   function drawHazard() { if (effect.hazard === 'lava') { ctx.fillStyle = 'rgba(255,67,37,.78)'; ctx.fillRect(0, height - 94, width, 94); for (let x=0;x<width;x+=46) { ctx.beginPath();ctx.arc(x, height-94, 20, 0, Math.PI,true);ctx.fillStyle='#ff9264';ctx.fill(); } }
     if (effect.hazard === 'spikes') { ctx.fillStyle=colors.spikes; for(let x=0;x<width;x+=50){ctx.beginPath();ctx.moveTo(x,height-42);ctx.lineTo(x+25,height-94);ctx.lineTo(x+50,height-42);ctx.fill();} }
     if (effect.hazard === 'meteors') { if(Math.random()<.025*effect.hazardIntensity) meteors.push({x:Math.random()*width,y:-20,vy:4+effect.hazardIntensity}); ctx.fillStyle='#ff764c'; meteors.forEach(m=>{m.y+=m.vy;ctx.beginPath();ctx.arc(m.x,m.y,12,0,7);ctx.fill();}); meteors=meteors.filter(m=>m.y<height+40); }
