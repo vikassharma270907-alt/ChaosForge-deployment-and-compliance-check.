@@ -4,6 +4,7 @@ import { loadEnv } from "./env.js";
 import { saveValidatedToken, TwitchAuthError } from "./auth.js";
 import { deckPage, overlayPage } from "./pages.js";
 import { ChaosForgeGame } from "./game.js";
+import { EventSubClient } from "./eventsub.js";
 
 export const app = express();
 export const game = new ChaosForgeGame();
@@ -88,5 +89,17 @@ app.post("/auth/save", async (request: Request, response: Response) => {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--demo")) game.startDemo();
   const port = Number(loadEnv().PORT ?? 3000);
-  app.listen(port, "127.0.0.1", () => console.log(`ChaosForge server at http://localhost:${port}`));
+  app.listen(port, "127.0.0.1", () => {
+    console.log(`ChaosForge server at http://localhost:${port}`);
+    const env = loadEnv();
+    if (env.TWITCH_USER_TOKEN && env.TWITCH_BROADCASTER_ID && env.TWITCH_USER_ID) {
+      new EventSubClient({
+        url: env.EVENTSUB_URL ?? "wss://eventsub.wss.twitch.tv/ws",
+        clientId: env.TWITCH_CLIENT_ID ?? "",
+        token: env.TWITCH_USER_TOKEN,
+        broadcasterId: env.TWITCH_BROADCASTER_ID,
+        userId: env.TWITCH_USER_ID,
+      }, game).connect();
+    }
+  });
 }
