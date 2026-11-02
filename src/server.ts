@@ -2,7 +2,7 @@ import express, { type Request, type Response } from "express";
 import { pathToFileURL } from "node:url";
 import { loadEnv } from "./env.js";
 import { saveValidatedToken, TwitchAuthError } from "./auth.js";
-import { deckPage, overlayPage } from "./pages.js";
+import { deckPage, homePage, overlayPage } from "./pages.js";
 import { ChaosForgeGame } from "./game.js";
 import { EventSubClient } from "./eventsub.js";
 
@@ -57,17 +57,7 @@ app.post("/api/simulate-raid", (_request: Request, response: Response) => {
 });
 
 app.get("/", (_request: Request, response: Response) => {
-  response.type("html").send(`<!doctype html><meta charset="utf-8"><title>ChaosForge Twitch login</title>
-<main><h1>Connecting to Twitch…</h1><p id="status">Reading the secure callback.</p></main>
-<script>
-const token = new URLSearchParams(location.hash.slice(1)).get('access_token');
-if (!token) document.querySelector('#status').textContent = 'No access token was returned. Please start login again.';
-else fetch('/auth/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token})})
-  .then(async r => ({ok:r.ok, body:await r.json()})).then(({ok,body}) => {
-    document.querySelector('#status').textContent = ok ? 'Connected as ' + body.login : body.error;
-    history.replaceState({}, '', location.pathname);
-  }).catch(() => document.querySelector('#status').textContent = 'Could not save the Twitch connection.');
-</script>`);
+  response.type("html").send(homePage());
 });
 
 app.post("/auth/save", async (request: Request, response: Response) => {
