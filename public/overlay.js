@@ -1,7 +1,6 @@
 (() => {
   const canvas = document.querySelector('#arena');
   const ctx = canvas.getContext('2d');
-  const demo = document.body.dataset.demo === 'true';
   let width = 1920, height = 1080, last = performance.now();
   let effect = { gravityX: 0, gravityY: 1, hazard: 'none', hazardIntensity: 1, shader: 'none', shieldSeconds: 0, durationSeconds: 20 };
   let player = { x: 460, y: 540, vx: 0, vy: 0, shieldUntil: 0, coins: 0 };
@@ -13,13 +12,6 @@
   addEventListener('resize', resize); resize();
   function audio() { if (startedAudio) return; startedAudio = true; try { const ac = new AudioContext(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 520; g.gain.setValueAtTime(.04, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + .22); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + .22); } catch {} }
   function approve(event) { effect = event.effect; banner = { text: event.text, user: event.user, until: performance.now() + 4400 }; contributor = { user: event.user, effect, until: performance.now() + effect.durationSeconds * 1000 }; player.shieldUntil = performance.now() + effect.shieldSeconds * 1000; meteors = []; audio(); }
-  function demoEvent(index) { const rules = [
-    ['reverse gravity and make the floor lava', 'NovaByte', { gravityX:0,gravityY:-1,hazard:'lava',hazardIntensity:3,shader:'neon',shieldSeconds:0,durationSeconds:12 }],
-    ['glitch meteors, give us a shield', 'PixelWitch', { gravityX:0,gravityY:1,hazard:'meteors',hazardIntensity:4,shader:'glitch',shieldSeconds:8,durationSeconds:12 }],
-    ['pull right through the spikes', 'ForgeFan', { gravityX:1,gravityY:1,hazard:'spikes',hazardIntensity:3,shader:'invert',shieldSeconds:0,durationSeconds:12 }]
-  ][index % 3];
-    approve({ text: rules[0], user: 'DEMO · ' + rules[1], effect: rules[2] });
-  }
   let latestActiveId = null;
   const stream = new EventSource('/events');
   stream.addEventListener('state', (message) => { try { const state = JSON.parse(message.data); if (state.active && state.active.id !== latestActiveId) { latestActiveId = state.active.id; approve(state.active); } if (!state.active) { latestActiveId = null; effect = { gravityX: 0, gravityY: 1, hazard: 'none', hazardIntensity: 1, shader: 'none', shieldSeconds: 0, durationSeconds: 20 }; } } catch {} });

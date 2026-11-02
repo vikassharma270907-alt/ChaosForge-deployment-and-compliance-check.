@@ -154,8 +154,10 @@ export class EventSubClient {
         method: "POST",
         headers: { "Client-Id": this.config.clientId, Authorization: `Bearer ${this.config.token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ type, version: "1", condition, transport: { method: "websocket", session_id: sessionId } }),
-      }).then((response) => this.log(`EventSub subscription status ${response.status}`))
-        .catch(() => this.log("EventSub subscription status 0"));
+      }).then((response) => {
+        this.log(`EventSub subscription status ${response.status}`);
+        if (!response.ok) this.game.setTwitchStatus("error");
+      }).catch(() => { this.log("EventSub subscription status 0"); this.game.setTwitchStatus("error"); });
     });
     await Promise.all(requests);
   }
